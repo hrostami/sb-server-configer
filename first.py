@@ -7,9 +7,10 @@ print('--------> Downloading sing-box\n\n')
 if not os.path.exists('/root/sing-box'):
     os.system('curl -Lo /root/sb https://github.com/SagerNet/sing-box/releases/download/v1.3-beta11/sing-box-1.3-beta11-linux-amd64.tar.gz && tar -xzf /root/sb && cp -f /root/sing-box-*/sing-box /root && rm -r /root/sb /root/sing-box-* && chown root:root /root/sing-box && chmod +x /root/sing-box')
     print('--------Downloading sing-box finished--------\n\n')
+    sing_box_new = True
 else:
     print('--------sing-box Already exists--------\n\n')
-    sing_box = False
+    sing_box_new = False
 
 
 # Create user_data.pkl for the bot
@@ -41,7 +42,7 @@ os.system('curl -Lo /root/configer.py https://raw.githubusercontent.com/hrostami
 os.system('pip install python-telegram-bot==13.5')
 time.sleep(1)
 print('--------> Setting up Services \n\n')
-if sing_box:
+if sing_box_new:
     os.system('curl -Lo /etc/systemd/system/sing-box.service https://raw.githubusercontent.com/iSegaro/Sing-Box/main/sing-box.service')
 time.sleep(1)
 if not os.path.exists('/etc/systemd/system/configer.service'):
