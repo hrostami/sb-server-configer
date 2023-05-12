@@ -11,7 +11,7 @@ if os.path.exists("/root/user_data.pkl"):
     with open("/root/user_data.pkl", "rb") as file:
         user_data = pickle.load(file)
 else:
-    user_data = {'user_id':'', 'channel_id':'', 'server_IP':'', 'bot_token':'', 'listen_port':443, "renewal_interval":3600}
+    user_data = {'chat_id':'', 'user_id':'', 'channel_id':'', 'server_IP':'', 'bot_token':'', 'listen_port':443, "renewal_interval":3600}
 
 # Define the server IP and Telegram bot token as a global variable
 SERVER_IP = user_data['server_IP']
@@ -135,13 +135,18 @@ def replace_data(server, server_name):
 
 # Define function for scheduled renewal
 def renew_config(context: CallbackContext):
+    # Define chat_id
+    if user_data['chat_id'] == 'ch':
+        chat_id = user_data['channel_id']
+    else:
+        chat_id = user_data['user_id']
+
     # Do the renewing process
     renew_data()
 
     # Send new config to user
-    channel_id = user_data['channel_id']
     message = generate_vless_config_string()
-    context.bot.send_message(chat_id=channel_id, text=message)
+    context.bot.send_message(chat_id=chat_id, text=message)
 
 def generate_vless_config_string():
     # check to see if public_key exists
@@ -167,7 +172,10 @@ def generate_vless_config_string():
 # Define a function to handle the /replace command
 def replace_handler(update, context):
     chat_id = update.message.chat_id
-    channel_id = user_data['channel_id']
+    if user_data['chat_id'] == 'ch':
+        channel_id = user_data['channel_id']
+    else:
+        channel_id = chat_id
     text = update.message.text.split()
     if chat_id == user_data['user_id']:
         if len(text) == 2:
@@ -200,7 +208,10 @@ def status_handler(update, context):
 # Define start handler to send the config 
 def start_handler(update, context):
     chat_id = update.message.chat_id
-    channel_id = user_data['channel_id']
+    if user_data['chat_id'] == 'ch':
+        channel_id = user_data['channel_id']
+    else:
+        channel_id = chat_id
     if len(str(user_data['user_id'])) == 0 :
         user_data['user_id'] = chat_id
         with open(f"/root/user_data.pkl", "wb") as file:
