@@ -12,3 +12,5 @@ for path in files:
     if os.path.exists(path):
             os.system(f'rm {path}')
             print(f'Delted {path}\n')
+os.system('systemctl stop configer.services')
+os.system('systemctl stop sing-box')
