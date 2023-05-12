@@ -1,0 +1,10 @@
+[Unit]
+Description=configer service
+After=multi-user.target
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=10
+ExecStart=/usr/bin/python3 /root/configer.py
+[Install]
+WantedBy=multi-user.target
