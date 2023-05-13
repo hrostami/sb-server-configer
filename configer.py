@@ -187,13 +187,10 @@ def replace_handler(update, context):
             subprocess.run(["systemctl", "stop", "sing-box"])
             save_to_file(modified_data)
             check = os.system('/root/sing-box check -c sing-box_config.json')
-            if check == 0 :
-                subprocess.run(["systemctl", "restart", "sing-box"])
-                context.bot.send_message(chat_id=chat_id, text="Data replaced successfully!")
-                message = generate_vless_config_string()
-                context.bot.send_message(chat_id=channel_id, text=message)
-            else:
-                context.bot.send_message(chat_id=chat_id, text="Error in the json file")
+            subprocess.run(["systemctl", "restart", "sing-box"])
+            context.bot.send_message(chat_id=chat_id, text="Data replaced successfully!")
+            message = generate_vless_config_string()
+            context.bot.send_message(chat_id=channel_id, text=message)
         else:
             context.bot.send_message(chat_id=chat_id, text="Invalid command format. Usage: /replace server")
     else:
