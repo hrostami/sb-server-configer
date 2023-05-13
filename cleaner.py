@@ -1,5 +1,6 @@
 import os 
 
+# Remove files
 files = ["/root/user_data.pkl",
           "/root/sb-data.json",
           "/root/public_key.pkl",
@@ -12,5 +13,12 @@ for path in files:
     if os.path.exists(path):
             os.system(f'rm {path}')
             print(f'Delted {path}\n')
+
+# Stop Services
 os.system('systemctl stop configer.services')
 os.system('systemctl stop sing-box')
+
+# Remove sing-box
+if os.path.exists('/root/sing-box'):
+      os.system('rm -r /root/sing-box')
+      os.system('systemctl disable sing-box')
