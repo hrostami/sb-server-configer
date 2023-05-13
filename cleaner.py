@@ -15,8 +15,11 @@ for path in files:
             print(f'Delted {path}\n')
 
 # Stop Services
-os.system('systemctl stop configer.services')
-os.system('systemctl stop sing-box')
+try:
+    os.system('systemctl stop configer.services')
+    os.system('systemctl stop sing-box')
+except Exception as e:
+      print(e)
 
 # Remove sing-box
 if os.path.exists('/root/sing-box'):
