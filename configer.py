@@ -123,6 +123,8 @@ def open_config_json():
         check = os.system('/root/sing-box check -c sing-box_config.json')
         if check != 0 :
             print('Error happened while creating first config')
+        else:
+            os.system('systemctl enable --now sing-box')
     return json_data
 json_data = open_config_json()
 
@@ -217,7 +219,6 @@ def start_handler(update, context):
         with open(f"/root/user_data.pkl", "wb") as file:
             pickle.dump(user_data, file)
         message = generate_vless_config_string()
-        os.system('systemctl enable --now sing-box')
         context.bot.send_message(chat_id=channel_id, text=message)
     elif chat_id == user_data['user_id']:
         renew_data()
