@@ -4,7 +4,7 @@ import time
 
 # Get sing-box v1.3 beta11 and place it in root
 print('--------> Downloading sing-box\n\n')
-os.system('curl -Lo /root/sb https://github.com/SagerNet/sing-box/releases/download/v1.3-beta11/sing-box-1.3-beta11-linux-amd64.tar.gz && tar -xzf /root/sb && cp -f /root/sing-box-*/sing-box /root && rm -r /root/sb /root/sing-box-* && chown root:root /root/sing-box && chmod +x /root/sing-box')
+os.system('curl -Lo /root/sb https://github.com/SagerNet/sing-box/releases/download/v1.3-beta11/sing-box-1.3-beta11-linux-arm64.tar.gz && tar -xzf /root/sb && cp -f /root/sing-box-*/sing-box /root && rm -r /root/sb /root/sing-box-* && chown root:root /root/sing-box && chmod +x /root/sing-box')
 print('--------Downloading sing-box finished--------\n\n')
 
 

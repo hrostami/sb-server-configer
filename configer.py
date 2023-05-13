@@ -3,6 +3,7 @@ import subprocess
 import os
 import pickle
 import datetime
+import requests
 from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandler, Filters
 
 
@@ -16,6 +17,13 @@ else:
 # Define the server IP and Telegram bot token as a global variable
 SERVER_IP = user_data['server_IP']
 BOT_TOKEN = user_data['bot_token']
+
+# Define a function to get the location of the server
+def iploc():
+    url = 'http://ip-api.com/json/'
+    r = requests.get(url)
+    iploc = r.json()['country']
+    return iploc
 
 # Define a function to save the modified json data to a file
 def save_to_file(data):
@@ -92,7 +100,7 @@ def open_config_json():
                                 ],
                                 "tls": {
                                     "enabled": True,
-                                    "server_name": "uupload.ir",
+                                    "server_name": "www.datadoghq.com",
                                     "reality": {
                                         "enabled": True,
                                         "handshake": {
@@ -165,9 +173,10 @@ def generate_vless_config_string():
     with open("/root/public_key.pkl", "rb") as file:
         public_key = pickle.load(file)
     # Generate the VLESS proxy configuration string
+    loc= iploc()
     config_string =( f"vless://{uuid}@{SERVER_IP}:{listen_port}?security=reality&"
                     f"sni={server_name}&fp=chrome&pbk={public_key}&sid={short_id}&"
-                    f"type=tcp&flow=xtls-rprx-vision#sing-{server_name}")
+                    f"type=tcp&flow=xtls-rprx-vision#sb-{loc}")
 
     return config_string
 
