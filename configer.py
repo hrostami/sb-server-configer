@@ -104,7 +104,7 @@ def open_config_json():
                                     "reality": {
                                         "enabled": True,
                                         "handshake": {
-                                            "server": "uupload.ir",
+                                            "server": "www.datadoghq.com",
                                             "server_port": 443
                                         },
                                         "private_key": "qAdSu-xtsEOlP-xfysiAdiU-NxUBWmxZ63OOnTEMFFk",
