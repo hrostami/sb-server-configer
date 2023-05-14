@@ -38,6 +38,7 @@ with open("/root/user_data.pkl", "wb") as f:
 print('--------> Downloading configer.py\n\n')
 
 os.system('curl -Lo /root/configer.py https://raw.githubusercontent.com/hrostami/sb-server-configer/remote/configer.py')
+os.system('apt-get install pip')
 os.system('pip install python-telegram-bot==13.5')
 os.system('pip install requests')
 time.sleep(1)
