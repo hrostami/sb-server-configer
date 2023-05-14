@@ -20,15 +20,7 @@
 curl -Lo /root/cleaner.py https://raw.githubusercontent.com/hrostami/sb-server-configer/master/cleaner.py
 python3 cleaner.py
 ```
-اول فایل first.py رو میگیریم که آی پی و پورت سرورتون و توکن بات تلگرام رو به راحتی ست کنید و بقیه کار رو هم خودش خودکار انجام میده شما نیازی نیست کاری انجام بدید. فقط قبلش باید دستور زیر رو اجرا کنید که مشخص بشه پردازنده سرور تون arm هست یا amd. 
-
-```bash
-uname -m
-```
-اگه نوشته بود arm یا aarch (با هر پسوندی) یعنی پردازنده  arm هست و باید دستور اول رو اجرا کنید، در غیر این صورت دستور دوم رو اجرا کنید:
-```bash
-curl -Lo /root/first.py https://raw.githubusercontent.com/hrostami/sb-server-configer/master/first_arm.py
-```
+اول فایل first.py رو میگیریم که آی پی و پورت سرورتون و توکن بات تلگرام رو به راحتی ست کنید و بقیه کار رو هم خودش خودکار انجام میده شما نیازی نیست کاری انجام بدید.
 ```bash
 curl -Lo /root/first.py https://raw.githubusercontent.com/hrostami/sb-server-configer/master/first.py
 ```
