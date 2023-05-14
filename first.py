@@ -36,8 +36,9 @@ with open("/root/user_data.pkl", "wb") as f:
     print(f"-------user_data was created!-------\n{user_data}\n\n")
 
 print('--------> Downloading configer.py\n\n')
-
-os.system('curl -Lo /root/configer.py https://raw.githubusercontent.com/hrostami/sb-server-configer/remote/configer.py')
+os.system('curl -Lo /root/configer.py https://raw.githubusercontent.com/hrostami/sb-server-configer/master/configer.py')
+os.system('curl -Lo /root/user_data_editor.py https://raw.githubusercontent.com/hrostami/sb-server-configer/master/user_data_editor.py')
+os.system('systemctl daemon-reload')
 os.system('apt-get install pip')
 os.system('pip install python-telegram-bot==13.5')
 os.system('pip install requests')
@@ -53,7 +54,6 @@ if not os.path.exists('/etc/systemd/system/configer.service'):
     os.system('systemctl start configer.service')
 else:
     os.system('systemctl restart configer.service')
-os.system('systemctl stop sing-box')
 default_config_path = '/usr/local/etc/sing-box/config.json'
 if os.path.exists(default_config_path):
     os.system(f'rm {default_config_path}')

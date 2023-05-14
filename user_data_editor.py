@@ -1,5 +1,7 @@
 import pickle
+import os
 
+os.system('systemctl stop cconfiger.service')
 # Create user_data.pkl for the bot
 print('--------> Creating user_data\n\n')
 user_data = {
@@ -23,3 +25,4 @@ user_data["renewal_interval"] = int(input("Enter renewal interval in seconds: ")
 with open("/root/user_data.pkl", "wb") as f:
     pickle.dump(user_data, f)
     print(f"-------user_data was created!-------\n{user_data}\n\n")
+    os.system('systemctl restart cconfiger.service')
