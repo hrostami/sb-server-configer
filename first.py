@@ -11,7 +11,7 @@ time.sleep(5)
 p = Popen(['bash', '-c', 'curl -Ls https://raw.githubusercontent.com/FranzKafkaYu/sing-box-yes/master/install.sh | bash'], stdout=PIPE, stderr=PIPE, stdin=PIPE)
 
 output = p.stdout.read()
-p.stdin.write(1)
+p.stdin.write('1')
 print('--------Installing sing-box finished--------\n\n')
 
 
