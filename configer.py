@@ -33,11 +33,11 @@ def save_to_file(data):
 # Define  a function to renew uuid, private_key and short_id automatically everyday and send the new config
 def renew_data():
     # Run shell commands to generate UUID, reality keypair, and short ID
-    uuid = subprocess.run(["/root/sing-box", "generate", "uuid"], capture_output=True, text=True).stdout.strip()
-    reality_keypair = subprocess.run(["/root/sing-box", "generate", "reality-keypair"], capture_output=True, text=True).stdout.strip().splitlines()
+    uuid = subprocess.run(["/usr/local/bin/sing-box", "generate", "uuid"], capture_output=True, text=True).stdout.strip()
+    reality_keypair = subprocess.run(["/usr/local/bin/sing-box", "generate", "reality-keypair"], capture_output=True, text=True).stdout.strip().splitlines()
     private_key = reality_keypair[0].split(": ")[1]
     public_key = reality_keypair[1].split(": ")[1]
-    short_id = subprocess.run(["/root/sing-box", "generate", "rand", "--hex", "8"], capture_output=True, text=True).stdout.strip()
+    short_id = subprocess.run(["/usr/local/bin/sing-box", "generate", "rand", "--hex", "8"], capture_output=True, text=True).stdout.strip()
 
     with open("/root/sb-data.json", "w") as f:
         dic = {"uuid":uuid, "public_key":public_key, "private_key":private_key, "short_id":short_id}
@@ -191,7 +191,6 @@ def replace_handler(update, context):
             modified_data = replace_data(server, server_name)
             subprocess.run(["systemctl", "stop", "sing-box"])
             save_to_file(modified_data)
-            check = os.system('/root/sing-box check -c sing-box_config.json')
             subprocess.run(["systemctl", "restart", "sing-box"])
             context.bot.send_message(chat_id=chat_id, text="Data replaced successfully!")
             message = generate_vless_config_string()
