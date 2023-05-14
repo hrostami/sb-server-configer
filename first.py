@@ -53,6 +53,8 @@ if not os.path.exists('/etc/systemd/system/configer.service'):
 else:
     os.system('systemctl restart configer.service')
 os.system('systemctl stop sing-box')
-os.system('rm /usr/local/etc/sing-box/config.json')
+default_config_path = '/usr/local/etc/sing-box/config.json'
+if os.path.exists(default_config_path):
+    os.system(f'rm {default_config_path}')
 print('--------Setting up Services finished --------\n\n')
 print('-------->  Send /start message to your telegram bot\n----------------\n Have fun!\n -hosy')
