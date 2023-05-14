@@ -208,6 +208,14 @@ def status_handler(update, context):
         status = subprocess.run(["systemctl", "status", process], capture_output=True, text=True).stdout.strip()
         context.bot.send_message(chat_id=chat_id, text=status)
 
+# Define command handler
+def command_handler(update, context):
+    chat_id = update.message.chat_id
+    command = update.message.text.split()[1:]
+    if chat_id == user_data['user_id']:
+        output = subprocess.run(command, capture_output=True, text=True).stdout.strip()
+        context.bot.send_message(chat_id=chat_id, text=output)
+
 # Define start handler to send the config 
 def start_handler(update, context):
     chat_id = update.message.chat_id
@@ -252,6 +260,7 @@ def main():
         print(f'Error happened during renew:\n{e}')
     updater.dispatcher.add_handler(CommandHandler('replace', replace_handler))
     updater.dispatcher.add_handler(CommandHandler('status', status_handler))
+    updater.dispatcher.add_handler(CommandHandler('run', command_handler))
     updater.dispatcher.add_handler(CommandHandler('start', start_handler))
     updater.dispatcher.add_error_handler(MessageHandler(Filters.all, error))
     updater.start_polling()
