@@ -1,11 +1,13 @@
 import pickle
 import os
+import subprocess
+from subprocess import Popen, PIPE
 import time
 
 # Get sing-box v1.3 beta11 and place it in root
-print('--------> Downloading sing-box\n\n')
-os.system('curl -Lo /root/sb https://github.com/SagerNet/sing-box/releases/download/v1.3-beta11/sing-box-1.3-beta11-linux-amd64.tar.gz && tar -xzf /root/sb && cp -f /root/sing-box-*/sing-box /root && rm -r /root/sb /root/sing-box-* && chown root:root /root/sing-box && chmod +x /root/sing-box')
-print('--------Downloading sing-box finished--------\n\n')
+print('--------> Downloading sing-box:\n\n\n\n')
+subprocess.run(["bash", "-c", "curl -Ls https://raw.githubusercontent.com/FranzKafkaYu/sing-box-yes/master/install.sh | bash -s install 1.3-beta11"], check=True)
+print('--------Installing sing-box finished--------\n\n')
 
 
 
@@ -34,12 +36,13 @@ with open("/root/user_data.pkl", "wb") as f:
     print(f"-------user_data was created!-------\n{user_data}\n\n")
 
 print('--------> Downloading configer.py\n\n')
-os.system('curl -Lo /root/configer.py https://raw.githubusercontent.com/hrostami/sb-server-configer/master/configer.py')
+
+os.system('curl -Lo /root/configer.py https://raw.githubusercontent.com/hrostami/sb-server-configer/remote/configer.py')
+os.system('apt-get install pip')
 os.system('pip install python-telegram-bot==13.5')
 os.system('pip install requests')
 time.sleep(1)
 print('--------> Setting up Services \n\n')
-os.system('curl -Lo /etc/systemd/system/sing-box.service https://raw.githubusercontent.com/iSegaro/Sing-Box/main/sing-box.service')
 time.sleep(1)
 if not os.path.exists('/etc/systemd/system/configer.service'):
     os.system('curl -Lo /etc/systemd/system/configer.service https://raw.githubusercontent.com/hrostami/sb-server-configer/master/configer.service')
@@ -49,8 +52,10 @@ if not os.path.exists('/etc/systemd/system/configer.service'):
     os.system('sleep 0.2')
     os.system('systemctl start configer.service')
 else:
-    os.system('systemctl stop configer.service')
-    os.system('sleep 0.5')
     os.system('systemctl restart configer.service')
+os.system('systemctl stop sing-box')
+default_config_path = '/usr/local/etc/sing-box/config.json'
+if os.path.exists(default_config_path):
+    os.system(f'rm {default_config_path}')
 print('--------Setting up Services finished --------\n\n')
 print('-------->  Send /start message to your telegram bot\n----------------\n Have fun!\n -hosy')

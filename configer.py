@@ -27,17 +27,17 @@ def iploc():
 
 # Define a function to save the modified json data to a file
 def save_to_file(data):
-    with open('/root/sing-box_config.json', 'w') as file:
+    with open('/usr/local/etc/sing-box/config.json', 'w') as file:
         json.dump(data, file)
 
 # Define  a function to renew uuid, private_key and short_id automatically everyday and send the new config
 def renew_data():
     # Run shell commands to generate UUID, reality keypair, and short ID
-    uuid = subprocess.run(["/root/sing-box", "generate", "uuid"], capture_output=True, text=True).stdout.strip()
-    reality_keypair = subprocess.run(["/root/sing-box", "generate", "reality-keypair"], capture_output=True, text=True).stdout.strip().splitlines()
+    uuid = subprocess.run(["/usr/local/bin/sing-box", "generate", "uuid"], capture_output=True, text=True).stdout.strip()
+    reality_keypair = subprocess.run(["/usr/local/bin/sing-box", "generate", "reality-keypair"], capture_output=True, text=True).stdout.strip().splitlines()
     private_key = reality_keypair[0].split(": ")[1]
     public_key = reality_keypair[1].split(": ")[1]
-    short_id = subprocess.run(["/root/sing-box", "generate", "rand", "--hex", "8"], capture_output=True, text=True).stdout.strip()
+    short_id = subprocess.run(["/usr/local/bin/sing-box", "generate", "rand", "--hex", "8"], capture_output=True, text=True).stdout.strip()
 
     with open("/root/sb-data.json", "w") as f:
         dic = {"uuid":uuid, "public_key":public_key, "private_key":private_key, "short_id":short_id}
@@ -74,8 +74,8 @@ def renew_data():
 
 # Define the json data to be modified
 def open_config_json():
-    if os.path.exists("/root/sing-box_config.json"):
-        with open("/root/sing-box_config.json", "r") as file:
+    if os.path.exists("/usr/local/etc/sing-box/config.json"):
+        with open("/usr/local/etc/sing-box/config.json", "r") as file:
             json_data = json.load(file)
     else:
         json_data = {
@@ -128,11 +128,7 @@ def open_config_json():
                     }
         save_to_file(json_data)
         json_data = renew_data()
-        check = os.system('/root/sing-box check -c sing-box_config.json')
-        if check != 0 :
-            print('Error happened while creating first config')
-        else:
-            os.system('systemctl enable --now sing-box')
+        os.system('systemctl enable --now sing-box')
     return json_data
 json_data = open_config_json()
 
@@ -195,7 +191,6 @@ def replace_handler(update, context):
             modified_data = replace_data(server, server_name)
             subprocess.run(["systemctl", "stop", "sing-box"])
             save_to_file(modified_data)
-            check = os.system('/root/sing-box check -c sing-box_config.json')
             subprocess.run(["systemctl", "restart", "sing-box"])
             context.bot.send_message(chat_id=chat_id, text="Data replaced successfully!")
             message = generate_vless_config_string()

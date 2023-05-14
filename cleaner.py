@@ -4,7 +4,7 @@ import os
 files = ["/root/user_data.pkl",
           "/root/sb-data.json",
           "/root/public_key.pkl",
-          "/root/sing-box_config.json",
+          "/usr/local/etc/sing-box/config.json",
           "/root/configer.py",
           "/root/first.py",
 
@@ -16,12 +16,7 @@ for path in files:
 
 # Stop Services
 try:
-    os.system('systemctl stop configer.service')
+    os.system('systemctl stop configer')
     os.system('systemctl stop sing-box')
 except Exception as e:
       print(e)
-
-# Remove sing-box
-if os.path.exists('/root/sing-box'):
-      os.system('rm -r /root/sing-box')
-      os.system('systemctl disable sing-box')
