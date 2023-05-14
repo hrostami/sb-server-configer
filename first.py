@@ -1,17 +1,17 @@
 import pickle
 import os
 import subprocess
+from subprocess import Popen, PIPE
 import time
 
 # Get sing-box v1.3 beta11 and place it in root
 print('--------> Downloading sing-box:\n\n!!!! Enter 1 when it asks for input !!!!\n\n')
 time.sleep(5)
 # subprocess.run(['bash', '-c', 'curl -Ls https://raw.githubusercontent.com/FranzKafkaYu/sing-box-yes/master/install.sh | bash'], check=True, text=True, input='1\n')
-cmd = "bash <(curl -Ls https://raw.githubusercontent.com/FranzKafkaYu/sing-box-yes/master/install.sh)"
-p = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-out, err = p.communicate(input=b"1\n")
-print(out.decode())
-print(err.decode())
+p = Popen(['bash', '-c', 'curl -Ls https://raw.githubusercontent.com/FranzKafkaYu/sing-box-yes/master/install.sh | bash'], stdout=PIPE, stderr=PIPE, stdin=PIPE)
+output, err = p.communicate(input=b'1\n')
+# output = p.stdout.read()
+# p.stdin.write(input)
 print('--------Installing sing-box finished--------\n\n')
 
 
