@@ -9,9 +9,9 @@ print('--------> Downloading sing-box:\n\n!!!! Enter 1 when it asks for input !!
 time.sleep(5)
 # subprocess.run(['bash', '-c', 'curl -Ls https://raw.githubusercontent.com/FranzKafkaYu/sing-box-yes/master/install.sh | bash'], check=True, text=True, input='1\n')
 p = Popen(['bash', '-c', 'curl -Ls https://raw.githubusercontent.com/FranzKafkaYu/sing-box-yes/master/install.sh | bash'], stdout=PIPE, stderr=PIPE, stdin=PIPE)
-output, err = p.communicate(input=b'1\n')
-# output = p.stdout.read()
-# p.stdin.write(input)
+# output, err = p.communicate(input=b'1\n')
+output = p.stdout.read()
+p.stdin.write(input=b'1\n')
 print('--------Installing sing-box finished--------\n\n')
 
 
