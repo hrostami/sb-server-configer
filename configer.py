@@ -27,7 +27,7 @@ def iploc():
 
 # Define a function to save the modified json data to a file
 def save_to_file(data):
-    with open('/root/sing-box_config.json', 'w') as file:
+    with open('/usr/local/etc/sing-box/config.json', 'w') as file:
         json.dump(data, file)
 
 # Define  a function to renew uuid, private_key and short_id automatically everyday and send the new config
@@ -74,8 +74,8 @@ def renew_data():
 
 # Define the json data to be modified
 def open_config_json():
-    if os.path.exists("/root/sing-box_config.json"):
-        with open("/root/sing-box_config.json", "r") as file:
+    if os.path.exists("/usr/local/etc/sing-box/config.json"):
+        with open("/usr/local/etc/sing-box/config.json", "r") as file:
             json_data = json.load(file)
     else:
         json_data = {
@@ -128,11 +128,7 @@ def open_config_json():
                     }
         save_to_file(json_data)
         json_data = renew_data()
-        check = os.system('/root/sing-box check -c sing-box_config.json')
-        if check != 0 :
-            print('Error happened while creating first config')
-        else:
-            os.system('systemctl enable --now sing-box')
+        os.system('systemctl enable --now sing-box')
     return json_data
 json_data = open_config_json()
 
