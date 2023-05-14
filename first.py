@@ -1,11 +1,13 @@
 import pickle
 import os
+import subprocess
 import time
 
 # Get sing-box v1.3 beta11 and place it in root
 print('--------> Downloading sing-box:\n\n!!!! Enter 1 when it asks for input !!!!\n\n')
 time.sleep(5)
-os.system("bash <(curl -Ls https://raw.githubusercontent.com/FranzKafkaYu/sing-box-yes/master/install.sh)")
+subprocess.run(['bash', '<(curl -Ls https://raw.githubusercontent.com/FranzKafkaYu/sing-box-yes/master/install.sh)'])
+# os.system("bash <(curl -Ls https://raw.githubusercontent.com/FranzKafkaYu/sing-box-yes/master/install.sh)")
 print('--------Installing sing-box finished--------\n\n')
 
 
