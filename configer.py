@@ -8,7 +8,7 @@ import requests
 from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandler, Filters
 import logging
 
-logging.basicConfig(filename='example.log', level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
+logging.basicConfig(filename='/root/bot.log', level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
 
 
 # Loading User Data from file
