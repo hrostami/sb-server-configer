@@ -78,4 +78,4 @@ s = '''
 '''
 
 print(s)
-print('\n\n-------->  Send /start message to your telegram bot\n----------------\n Have fun!\n -hosy')
+print('\n\n-------->  Send /start message to your telegram bot')
