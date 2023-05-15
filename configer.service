@@ -5,6 +5,6 @@ After=multi-user.target
 Type=simple
 Restart=on-failure
 RestartSec=10
-ExecStart=/usr/bin/python3 /root/configer.py
+ExecStart=/usr/bin/python3 /root/configer/configer.py
 [Install]
 WantedBy=multi-user.target
