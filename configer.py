@@ -6,6 +6,9 @@ import datetime
 import base64
 import requests
 from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandler, Filters
+import logging
+
+logging.basicConfig(filename='example.log', level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
 
 
 # Loading User Data from file
@@ -41,6 +44,7 @@ def save_to_file(data, mode='json', path=''):
 
 # Define  a function to renew uuid, private_key and short_id automatically everyday and send the new config
 def renew_data():
+    logging.info("Renewing data")
     # Run shell commands to generate UUID, reality keypair, and short ID
     uuid = subprocess.run(["/usr/local/bin/sing-box", "generate", "uuid"], capture_output=True, text=True).stdout.strip()
     reality_keypair = subprocess.run(["/usr/local/bin/sing-box", "generate", "reality-keypair"], capture_output=True, text=True).stdout.strip().splitlines()
@@ -60,7 +64,7 @@ def renew_data():
     try:
         subprocess.run(["systemctl", "stop", "sing-box"])
     except Exception as e:
-        print(f'Error happened stopping sing-box:\n{e}')
+        logging.error(f'Error happened stopping sing-box:\n{e}')
     
     # Load the JSON data
     json_data = open_config_json()
