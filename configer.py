@@ -3,6 +3,7 @@ import subprocess
 import os
 import pickle
 import datetime
+import base64
 import requests
 from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandler, Filters
 
@@ -12,7 +13,8 @@ if os.path.exists("/root/user_data.pkl"):
     with open("/root/user_data.pkl", "rb") as file:
         user_data = pickle.load(file)
 else:
-    user_data = {'chat_id':'', 'user_id':'', 'channel_id':'', 'server_IP':'', 'bot_token':'', 'listen_port':443, "renewal_interval":3600}
+    user_data = {'chat_id':'', 'user_id':'', 'channel_id':'', 'server_IP':'',
+                  'bot_token':'', 'listen_port':443, "renewal_interval":3600, "domain_name":'domain.com'}
 
 # Define the server IP and Telegram bot token as a global variable
 SERVER_IP = user_data['server_IP']
@@ -142,17 +144,19 @@ def replace_data(server, server_name):
 # Define function for scheduled renewal
 def renew_config(context: CallbackContext):
     # Define chat_id
+    chat_id = user_data['user_id']
     if user_data['chat_id'] == 'ch':
-        chat_id = user_data['channel_id']
+        channel_id = user_data['channel_id']
     else:
-        chat_id = user_data['user_id']
+        channel_id = user_data['user_id']
 
     # Do the renewing process
     renew_data()
 
     # Send new config to user
-    message = generate_vless_config_string()
+    message, encoded64 = generate_vless_config_string()
     context.bot.send_message(chat_id=chat_id, text=message)
+    context.bot.send_message(chat_id=channel_id, text=encoded64)
 
 def generate_vless_config_string():
     # check to see if public_key exists
@@ -173,8 +177,17 @@ def generate_vless_config_string():
     config_string =( f"vless://{uuid}@{SERVER_IP}:{listen_port}?security=reality&"
                     f"sni={server_name}&fp=chrome&pbk={public_key}&sid={short_id}&"
                     f"type=tcp&flow=xtls-rprx-vision#sb-{loc}")
+    # CREATE BASE64
+    encodedBytes = base64.b64encode(config_string.encode("utf-8"))
+    encodedStr = str(encodedBytes, "utf-8")
 
-    return config_string
+    # Change web-page if exists
+    domain = user_data['domain_name']
+    if os.path.exists(f"/var/www/{domain}/html/index.html"):
+        with open(f"/var/www/{domain}/html/index.html", "w") as file:
+            file.write(encodedStr)
+
+    return config_string, encodedStr
 
 # Define a function to handle the /replace command
 def replace_handler(update, context):
@@ -193,10 +206,11 @@ def replace_handler(update, context):
             save_to_file(modified_data)
             subprocess.run(["systemctl", "restart", "sing-box"])
             context.bot.send_message(chat_id=chat_id, text="Data replaced successfully!")
-            message = generate_vless_config_string()
-            context.bot.send_message(chat_id=channel_id, text=message)
+            message, encoded64 = generate_vless_config_string()
+            context.bot.send_message(chat_id=channel_id, text=encoded64)
+            context.bot.send_message(chat_id=chat_id, text=message)
         else:
-            context.bot.send_message(chat_id=chat_id, text="Invalid command format. Usage: /replace server")
+            context.bot.send_message(chat_id=chat_id, text="Invalid command format. Usage: /replace domain-name.com")
     else:
         context.bot.send_message(chat_id=chat_id, text="You're not allowed to send SNI to this bot, piss off!")
 
@@ -227,19 +241,16 @@ def start_handler(update, context):
         user_data['user_id'] = chat_id
         with open(f"/root/user_data.pkl", "wb") as file:
             pickle.dump(user_data, file)
-        message = generate_vless_config_string()
-        context.bot.send_message(chat_id=channel_id, text=message)
+        message, encoded64 = generate_vless_config_string()
+        context.bot.send_message(chat_id=channel_id, text=encoded64)
+        context.bot.send_message(chat_id=chat_id, text=message)
     elif chat_id == user_data['user_id']:
         renew_data()
-        message = generate_vless_config_string()
-        context.bot.send_message(chat_id=channel_id, text=message)
-        update.message.reply_document(
-        document=open("/root/sb-data.json", "r"),
-        filename="sb-data.json",
-        caption='New sing-box values'
-                            )
+        message, encoded64 = generate_vless_config_string()
+        context.bot.send_message(chat_id=channel_id, text=encoded64)
+        context.bot.send_message(chat_id=chat_id, text=message)
     else:
-        message = generate_vless_config_string()
+        message ='You are not allowed to send messages to this bot'
         context.bot.send_message(chat_id=chat_id, text=message)
         
 
@@ -255,7 +266,7 @@ def main():
     j = updater.job_queue
     print('Bot started')
     try:
-        j.run_repeating(renew_config, user_data['renewal_interval'])
+        j.run_repeating(renew_config, user_data['renewal_interval']*3600)
     except Exception as e:
         print(f'Error happened during renew:\n{e}')
     updater.dispatcher.add_handler(CommandHandler('replace', replace_handler))
