@@ -9,7 +9,8 @@ import time
 if not os.path.exists('/root/configer'):
     os.system('mkdir configer')
 os.system('curl -Lo /root/cleaner.py https://raw.githubusercontent.com/hrostami/sb-server-configer/master/cleaner.py')
-os.system('python3 cleaner.py')
+os.system('python3 /root/cleaner.py')
+os.system('rm /root/cleaner.py')
 # Get sing-box v1.3 beta11 and place it in root
 print('--------> Downloading sing-box:\n\n\n\n')
 subprocess.run(["bash", "-c", "curl -Ls https://raw.githubusercontent.com/FranzKafkaYu/sing-box-yes/master/install.sh | bash -s install 1.3-beta11"], check=True)
