@@ -273,9 +273,9 @@ def start_handler(update, context):
 def user_data_handler(update, context):
     chat_id = update.message.chat_id
     input = update.message.text.split()
+    user_data = open_user_data()
     if chat_id == user_data['user_id']:
         if len(input) == 3:
-            user_data = open_user_data()
             param = input[1]
             value = input[2]
             user_data[param] = value
