@@ -9,7 +9,8 @@ from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandle
 import logging
 
 logging.basicConfig(filename='/root/bot.log', filemode='w', level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
-
+python_version = subprocess.run(["/usr/bin/python3", "-V"], text=True, capture_output=True).stdout.strip()
+python_version = python_version.split()[1].split('.')[1]
 
 # Loading User Data from file
 def open_user_data():
@@ -274,6 +275,8 @@ def start_handler(update, context):
         user_data['user_id'] = chat_id
         with open(f"/root/user_data.pkl", "wb") as file:
             pickle.dump(user_data, file)
+        if int(python_version) < 7:
+            context.bot.send_message(chat_id=chat_id, text='PYTHON VERSION BELOW 3.7!\nBOT CAN NOT WORK.')
         context.bot.send_message(chat_id=chat_id, text='Your Id is saved.\nPlease send /set command to set parameters.')
     elif chat_id == user_data['user_id']:
         renew_data()
