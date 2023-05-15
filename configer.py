@@ -9,12 +9,15 @@ from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandle
 
 
 # Loading User Data from file
-if os.path.exists("/root/user_data.pkl"):
-    with open("/root/user_data.pkl", "rb") as file:
-        user_data = pickle.load(file)
-else:
-    user_data = {'chat_id':'', 'user_id':'', 'channel_id':'', 'server_IP':'',
-                  'bot_token':'', 'listen_port':443, "renewal_interval":3600, "domain_name":'domain.com'}
+def open_user_data():
+    if os.path.exists("/root/user_data.pkl"):
+        with open("/root/user_data.pkl", "rb") as file:
+            user_data = pickle.load(file)
+    else:
+        user_data = {'chat_id':'', 'user_id':'', 'channel_id':'', 'server_IP':'',
+                    'bot_token':'', 'listen_port':443, "renewal_interval":3600, "domain_name":'domain.com'}
+    return user_data
+user_data = open_user_data()
 
 # Define the server IP and Telegram bot token as a global variable
 SERVER_IP = user_data['server_IP']
@@ -28,9 +31,13 @@ def iploc():
     return iploc
 
 # Define a function to save the modified json data to a file
-def save_to_file(data):
-    with open('/usr/local/etc/sing-box/config.json', 'w') as file:
-        json.dump(data, file)
+def save_to_file(data, mode='json', path=''):
+    if mode == 'json':
+        with open('/usr/local/etc/sing-box/config.json', 'w') as file:
+            json.dump(data, file)
+    elif mode == 'pkl':
+        with open(path, 'wb') as f:
+            pickle.dump(data, f)
 
 # Define  a function to renew uuid, private_key and short_id automatically everyday and send the new config
 def renew_data():
@@ -191,6 +198,7 @@ def generate_vless_config_string():
 
 # Define a function to handle the /replace command
 def replace_handler(update, context):
+    user_data = open_user_data()
     chat_id = update.message.chat_id
     if user_data['chat_id'] == 'ch':
         channel_id = user_data['channel_id']
@@ -216,6 +224,7 @@ def replace_handler(update, context):
 
 # Define status handler
 def status_handler(update, context):
+    user_data = open_user_data()
     chat_id = update.message.chat_id
     process = update.message.text.split()[1]
     if chat_id == user_data['user_id']:
@@ -224,6 +233,7 @@ def status_handler(update, context):
 
 # Define command handler
 def command_handler(update, context):
+    user_data = open_user_data()
     chat_id = update.message.chat_id
     command = update.message.text.split()[1:]
     if chat_id == user_data['user_id']:
@@ -238,6 +248,7 @@ def command_handler(update, context):
 
 # Define start handler to send the config 
 def start_handler(update, context):
+    user_data = open_user_data()
     chat_id = update.message.chat_id
     if user_data['chat_id'] == 'ch':
         channel_id = user_data['channel_id']
@@ -258,7 +269,30 @@ def start_handler(update, context):
     else:
         message ='You are not allowed to send messages to this bot'
         context.bot.send_message(chat_id=chat_id, text=message)
-        
+ 
+# Define status handler
+def user_data_handler(update, context):
+    chat_id = update.message.chat_id
+    input = update.message.text.split()
+    if chat_id == user_data['user_id']:
+        if len(input) == 3:
+            user_data = open_user_data()
+            param = input[1]
+            value = input[2]
+            user_data[param] = value
+            save_to_file(user_data, 'pkl', '/root/user_data.pkl')
+            context.bot.send_message(chat_id=chat_id, text=f'{param} set to {value}')
+        else:
+            context.bot.send_message(chat_id=chat_id, text="لطفا به شکل زیر پیام بفرستید، اول پارامتر مد نظر بعد فاصله و بعد مقدار. هر پارامتر رو جدا بفرستید")
+            message = ("/set chat_id me یا ch\n"
+                        "/set channel_id گرفتید myidbot آیدی کانال که از بات\n" 
+                        "/set server_IP آی پی سرور تون\n" 
+                        "/set listen_port پورت سینگ باکس مثلا 443\n" 
+                        "/set bot_token توکن بات تلگرام\n"
+                        "/set renewal_interval زمان تجدید کانفیگ به ساعت\n"
+                        "/set domain_name دامنه در صورت وجود" )
+            context.bot.send_message(chat_id=chat_id, text=message)
+   
 
 
 # Function to handle errors
@@ -279,6 +313,7 @@ def main():
     updater.dispatcher.add_handler(CommandHandler('status', status_handler))
     updater.dispatcher.add_handler(CommandHandler('run', command_handler))
     updater.dispatcher.add_handler(CommandHandler('start', start_handler))
+    updater.dispatcher.add_handler(CommandHandler('set', user_data_handler))
     updater.dispatcher.add_error_handler(MessageHandler(Filters.all, error))
     updater.start_polling()
     updater.idle()
