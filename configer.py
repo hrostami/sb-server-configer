@@ -252,6 +252,16 @@ def command_handler(update, context):
         caption="Here's the output of the command you asked! "
                             )
 
+# Define a handler to send log data
+def log_handler(update, context):
+    user_data = open_user_data()
+    chat_id = update.message.chat_id
+    if chat_id == user_data['user_id']:
+        update.message.reply_document(
+        document=open("/root/bot.log", "r"),
+        filename="bot.log",
+        caption="Here's the Log! "
+                            )
 # Define start handler to send the config 
 def start_handler(update, context):
     user_data = open_user_data()
@@ -321,6 +331,7 @@ def main():
     updater.dispatcher.add_handler(CommandHandler('run', command_handler))
     updater.dispatcher.add_handler(CommandHandler('start', start_handler))
     updater.dispatcher.add_handler(CommandHandler('set', user_data_handler))
+    updater.dispatcher.add_handler(CommandHandler('log', log_handler))
     updater.dispatcher.add_error_handler(MessageHandler(Filters.all, error))
     updater.start_polling()
     updater.idle()
