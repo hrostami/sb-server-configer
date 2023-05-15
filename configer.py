@@ -277,7 +277,10 @@ def user_data_handler(update, context):
     if chat_id == user_data['user_id']:
         if len(input) == 3:
             param = input[1]
-            value = input[2]
+            if param in ('channel_id', 'renewal_interval','listen_port'):
+                value = int(input[2])
+            else:
+                value = input[2]
             user_data[param] = value
             save_to_file(user_data, 'pkl', '/root/user_data.pkl')
             context.bot.send_message(chat_id=chat_id, text=f'{param} set to {value}')
