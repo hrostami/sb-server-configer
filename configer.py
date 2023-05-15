@@ -182,7 +182,8 @@ def generate_vless_config_string():
         public_key = pickle.load(file)
     # Generate the VLESS proxy configuration string
     loc= iploc()
-    config_string =( f"vless://{uuid}@{SERVER_IP}:{listen_port}?security=reality&"
+    server_ip = open_user_data()['server_IP']
+    config_string =( f"vless://{uuid}@{server_ip}:{listen_port}?security=reality&"
                     f"sni={server_name}&fp=chrome&pbk={public_key}&sid={short_id}&"
                     f"type=tcp&flow=xtls-rprx-vision#sb-{loc}")
     # CREATE BASE64
