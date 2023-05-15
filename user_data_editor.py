@@ -24,7 +24,7 @@ user_data["bot_token"] = input("Enter bot token: ")
 user_data["renewal_interval"] = int(input("Enter renewal interval in HOURS: "))
 user_data["domain_name"] = input("Enter domain name if you have one, if not just press Enter: ")
 
-with open("/root/user_data.pkl", "wb") as f:
+with open("/root/configer/user_data.pkl", "wb") as f:
     pickle.dump(user_data, f)
     print(f"-------user_data was created!-------\n{user_data}\n\n")
     os.system('systemctl restart configer.service')

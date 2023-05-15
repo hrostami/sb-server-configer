@@ -4,6 +4,7 @@ import subprocess
 from subprocess import Popen, PIPE
 import time
 
+os.system('mkdir configer')
 # Get sing-box v1.3 beta11 and place it in root
 print('--------> Downloading sing-box:\n\n\n\n')
 subprocess.run(["bash", "-c", "curl -Ls https://raw.githubusercontent.com/FranzKafkaYu/sing-box-yes/master/install.sh | bash -s install 1.3-beta11"], check=True)
@@ -21,15 +22,15 @@ user_data = {
     "domain_name":'domain.com'
 }
 user_data["bot_token"] = input("/////////// Enter bot token: ")
-with open("/root/user_data.pkl", "wb") as f:
+with open("/root/configer/user_data.pkl", "wb") as f:
     pickle.dump(user_data, f)
     print(f"-------user_data was created!-------\n{user_data}\n\n")
 
 
 
 print('--------> Downloading configer.py\n\n')
-os.system('curl -Lo /root/configer.py https://raw.githubusercontent.com/hrostami/sb-server-configer/master/configer.py')
-os.system('curl -Lo /root/user_data_editor.py https://raw.githubusercontent.com/hrostami/sb-server-configer/master/user_data_editor.py')
+os.system('curl -Lo /root/configer/configer.py https://raw.githubusercontent.com/hrostami/sb-server-configer/master/configer.py')
+os.system('curl -Lo /root/configer/user_data_editor.py https://raw.githubusercontent.com/hrostami/sb-server-configer/master/user_data_editor.py')
 os.system('systemctl daemon-reload')
 os.system('apt-get install pip')
 os.system('pip install python-telegram-bot==13.5')

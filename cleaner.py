@@ -1,12 +1,12 @@
 import os 
 
 # Remove files
-files = ["/root/user_data.pkl",
-          "/root/sb-data.json",
-          "/root/public_key.pkl",
+files = ["/root/configer/user_data.pkl",
+          "/root/configer/sb-data.json",
+          "/root/configer/public_key.pkl",
           "/usr/local/etc/sing-box/config.json",
-          "/root/configer.py",
-          "/root/first.py",
+          "/root/configer/configer.py",
+          "/root/configer/first.py",
 
           ]
 for path in files:
