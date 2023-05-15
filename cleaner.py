@@ -26,7 +26,7 @@ for path in files:
 
 # Stop Services
 try:
-    os.system('systemctl stop configer')
-    os.system('systemctl stop sing-box')
+    os.system('systemctl disable configer')
+    os.system('systemctl disable sing-box')
 except Exception as e:
       print(e)
