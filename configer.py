@@ -89,11 +89,12 @@ def renew_data():
 
 # Define the json data to be modified
 def open_config_json():
+    user_data = open_user_data()
     if os.path.exists("/usr/local/etc/sing-box/config.json"):
         with open("/usr/local/etc/sing-box/config.json", "r") as file:
             json_data = json.load(file)
+            json_data["inbounds"][0]['listen_port'] = user_data['listen_port']
     else:
-        user_data = open_user_data()
         json_data = {
                         "log": {
                             "level": "info",
