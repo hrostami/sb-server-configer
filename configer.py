@@ -41,12 +41,12 @@ def renew_data():
     public_key = reality_keypair[1].split(": ")[1]
     short_id = subprocess.run(["/usr/local/bin/sing-box", "generate", "rand", "--hex", "8"], capture_output=True, text=True).stdout.strip()
 
-    with open("/root/sb-data.json", "w") as f:
+    with open("/root/configer/sb-data.json", "w") as f:
         dic = {"uuid":uuid, "public_key":public_key, "private_key":private_key, "short_id":short_id}
         json.dump(dic,f)
 
     # Save public key to a pickle file
-    with open("/root/public_key.pkl", "wb") as f:
+    with open("/root/configer/public_key.pkl", "wb") as f:
         pickle.dump(public_key, f)
 
     # Stopping sing-box before editing config, not doing it for first config setup though!
