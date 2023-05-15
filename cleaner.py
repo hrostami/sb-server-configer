@@ -1,5 +1,13 @@
 import os 
 
+# Stop Services
+try:
+    os.system('systemctl disable configer')
+    os.system('systemctl disable sing-box')
+except Exception as e:
+      print(e)
+
+
 # Remove files
 files = ["/root/configer/user_data.pkl",
           "/root/configer/sb-data.json",
@@ -13,6 +21,7 @@ files = ["/root/configer/user_data.pkl",
           "/usr/local/etc/sing-box/config.json",
           "/root/configer.py",
           "/root/first.py",
+          '/etc/systemd/system/configer.service',
 
           ]
 for path in files:
@@ -24,9 +33,3 @@ for path in files:
                 print(e)
             
 
-# Stop Services
-try:
-    os.system('systemctl disable configer')
-    os.system('systemctl disable sing-box')
-except Exception as e:
-      print(e)
