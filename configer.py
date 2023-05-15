@@ -259,9 +259,7 @@ def start_handler(update, context):
         user_data['user_id'] = chat_id
         with open(f"/root/user_data.pkl", "wb") as file:
             pickle.dump(user_data, file)
-        message, encoded64 = generate_vless_config_string()
-        context.bot.send_message(chat_id=channel_id, text=encoded64)
-        context.bot.send_message(chat_id=chat_id, text=message)
+        context.bot.send_message(chat_id=chat_id, text='Your Id is saved.\nPlease send /set command to set parameters.')
     elif chat_id == user_data['user_id']:
         renew_data()
         message, encoded64 = generate_vless_config_string()
