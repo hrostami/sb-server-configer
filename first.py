@@ -1,5 +1,6 @@
 import pickle
 import os
+import sys
 import subprocess
 from subprocess import Popen, PIPE
 import time
@@ -21,10 +22,14 @@ user_data = {
     "renewal_interval":12,
     "domain_name":'domain.com'
 }
-user_data["bot_token"] = input("/////////// Enter bot token: ")
-with open("/root/configer/user_data.pkl", "wb") as f:
-    pickle.dump(user_data, f)
-    print(f"-------user_data was created!-------\n{user_data}\n\n")
+try:
+    user_data["bot_token"] = sys.argv[2]
+except:
+    user_data["bot_token"] = input("/////////// Enter bot token: ")
+finally:
+    with open("/root/configer/user_data.pkl", "wb") as f:
+        pickle.dump(user_data, f)
+        print(f"-------user_data was created!-------\n{user_data}\n\n")
 
 
 
