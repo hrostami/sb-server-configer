@@ -11,13 +11,13 @@ print('--------Installing sing-box finished--------\n\n')
 
 print('--------> Creating user_data\n\n')
 user_data = {
-    "chat_id":"",
+    "chat_id":"me",
     "user_id":"",
     "channel_id": "",
     "server_IP": "",
     "listen_port": 443,
     "bot_token": "",
-    "renewal_interval":3600,
+    "renewal_interval":12,
     "domain_name":'domain.com'
 }
 user_data["bot_token"] = input("/////////// Enter bot token: ")
