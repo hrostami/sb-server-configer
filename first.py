@@ -61,4 +61,21 @@ default_config_path = '/usr/local/etc/sing-box/config.json'
 if os.path.exists(default_config_path):
     os.system(f'rm {default_config_path}')
 print('--------Setting up Services finished --------\n\n')
-print('-------->  Send /start message to your telegram bot\n----------------\n Have fun!\n -hosy')
+
+s = '''
+  _____        _               _____                ___       _                       _                       
+ | ____|_ __  (_) ___  _   _  |  ___| __ ___  ___  |_ _|_ __ | |_ ___ _ __ _ __   ___| |_                     
+ |  _| | '_ \ | |/ _ \| | | | | |_ | '__/ _ \/ _ \  | || '_ \| __/ _ \ '__| '_ \ / _ \ __|                    
+ | |___| | | || | (_) | |_| | |  _|| | |  __/  __/  | || | | | ||  __/ |  | | | |  __/ |_ _                   
+ |_____|_| |_|/ |\___/ \__, | |_|  |_|  \___|\___| |___|_| |_|\__\___|_|  |_| |_|\___|\__( )                  
+            |__/       |___/                                                             |/                   
+                                _   _                                                                         
+                               | | | | ___  ___ _   _                                                         
+                               | |_| |/ _ \/ __| | | |                                                        
+                               |  _  | (_) \__ \ |_| |                                                        
+                               |_| |_|\___/|___/\__, |                                                        
+                                                |___/                                                         
+'''
+
+print(s)
+print('\n\n-------->  Send /start message to your telegram bot\n----------------\n Have fun!\n -hosy')
