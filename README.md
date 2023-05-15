@@ -28,7 +28,8 @@ python3 cleaner.py
 ```
 اول فایل first.py رو میگیریم که آی پی و پورت سرورتون و توکن بات تلگرام رو به راحتی ست کنید و بقیه کار رو هم خودش خودکار انجام میده شما نیازی نیست کاری انجام بدید.
 ```bash
-curl -Lo /root/first.py https://raw.githubusercontent.com/hrostami/sb-server-configer/master/first.py
+mkdir configer && cd configer
+curl -Lo /root/configer/first.py https://raw.githubusercontent.com/hrostami/sb-server-configer/master/first.py
 ```
 حالا بریم سراغ اجرا کردن اسکریپت. اول ازتون میپرسه میخواید به کانال وصل بشه یا به خودتون پیام بده، اگر میخواید به کانال وصل شه تایپ کنید ch و اگه برای خودتون me . بعدش به ترتیب آی پی، پورت سرور، آی دی کانال تلگرام که باید از بات myidbot بگیرید، بعدش توکن بات تلگرام تون و در نهایت بازه زمانی ای که میخواید خودکار کانفیگ سینگ باکس رو تغییر بده به ساعت(یعنی برای روزی یه بار میشه 24). دستور زیر رو اجرا کنید:
 ```bash
