@@ -27,7 +27,7 @@ user_data = {
     "domain_name":'domain.com'
 }
 try:
-    user_data["bot_token"] = sys.argv[2]
+    user_data["bot_token"] = sys.argv[1]
 except:
     user_data["bot_token"] = input("/////////// Enter bot token: ")
 finally:
