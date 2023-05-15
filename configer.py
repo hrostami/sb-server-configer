@@ -228,7 +228,13 @@ def command_handler(update, context):
     command = update.message.text.split()[1:]
     if chat_id == user_data['user_id']:
         output = subprocess.run(command, capture_output=True, text=True).stdout.strip()
-        context.bot.send_message(chat_id=chat_id, text=output)
+        with open(f"/root/output.txt", "w") as file:
+            file.write(output)
+        update.message.reply_document(
+        document=open("/root/output.txt", "r"),
+        filename="output.txt",
+        caption="Here's the output of the command you asked! "
+                            )
 
 # Define start handler to send the config 
 def start_handler(update, context):
