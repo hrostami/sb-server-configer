@@ -151,6 +151,7 @@ def replace_data(server, server_name):
 # Define function for scheduled renewal
 def renew_config(context: CallbackContext):
     # Define chat_id
+    user_data = open_user_data()
     chat_id = user_data['user_id']
     if user_data['chat_id'] == 'ch':
         channel_id = user_data['channel_id']
