@@ -18,7 +18,7 @@ def open_user_data():
         with open("/root/configer/user_data.pkl", "rb") as file:
             user_data = pickle.load(file)
     else:
-        print('cant open user data)
+        print('cant open user data')
         user_data = {'chat_id':'', 'user_id':'', 'channel_id':'', 'server_IP':'',
                     'bot_token':'', 'listen_port':443, "renewal_interval":3600, "domain_name":'domain.com'}
     return user_data
