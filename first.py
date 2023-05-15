@@ -41,14 +41,13 @@ finally:
 print('--------> Downloading configer.py\n\n')
 os.system('curl -Lo /root/configer/configer.py https://raw.githubusercontent.com/hrostami/sb-server-configer/master/configer.py')
 os.system('curl -Lo /root/configer/user_data_editor.py https://raw.githubusercontent.com/hrostami/sb-server-configer/master/user_data_editor.py')
-os.system('systemctl daemon-reload')
 os.system('apt-get install pip')
 os.system('pip install python-telegram-bot==13.5')
 os.system('pip install requests')
 time.sleep(1)
-print('--------> Setting up Services \n\n')
 time.sleep(1)
 if not os.path.exists('/etc/systemd/system/configer.service'):
+    print('--------> Setting up Services \n\n')
     os.system('curl -Lo /etc/systemd/system/configer.service https://raw.githubusercontent.com/hrostami/sb-server-configer/master/configer.service')
     os.system('systemctl daemon-reload')
     os.system('sleep 0.2')
@@ -60,6 +59,8 @@ else:
 default_config_path = '/usr/local/etc/sing-box/config.json'
 if os.path.exists(default_config_path):
     os.system(f'rm {default_config_path}')
+os.system('systemctl restart configer')
+os.system('systemctl restart sing-box')
 print('--------Setting up Services finished --------\n\n')
 
 s = '''
