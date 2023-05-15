@@ -317,7 +317,7 @@ def user_data_handler(update, context):
 
 # Function to handle errors
 def error(bot, context):
-    print(f"bot {bot} caused error {context.error}")
+    logging.info(f"bot {bot} caused error {context.error}")
 
 # Define the main function
 def main():
