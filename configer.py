@@ -9,8 +9,8 @@ from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandle
 
 
 # Loading User Data from file
-if os.path.exists("/root/user_data.pkl"):
-    with open("/root/user_data.pkl", "rb") as file:
+if os.path.exists("/root/configer/user_data.pkl"):
+    with open("/root/configer/user_data.pkl", "rb") as file:
         user_data = pickle.load(file)
 else:
     user_data = {'chat_id':'', 'user_id':'', 'channel_id':'', 'server_IP':'',
@@ -41,12 +41,12 @@ def renew_data():
     public_key = reality_keypair[1].split(": ")[1]
     short_id = subprocess.run(["/usr/local/bin/sing-box", "generate", "rand", "--hex", "8"], capture_output=True, text=True).stdout.strip()
 
-    with open("/root/sb-data.json", "w") as f:
+    with open("/root/configer/sb-data.json", "w") as f:
         dic = {"uuid":uuid, "public_key":public_key, "private_key":private_key, "short_id":short_id}
         json.dump(dic,f)
 
     # Save public key to a pickle file
-    with open("/root/public_key.pkl", "wb") as f:
+    with open("/root/configer/public_key.pkl", "wb") as f:
         pickle.dump(public_key, f)
 
     # Stopping sing-box before editing config, not doing it for first config setup though!
@@ -160,7 +160,7 @@ def renew_config(context: CallbackContext):
 
 def generate_vless_config_string():
     # check to see if public_key exists
-    if not os.path.exists("/root/public_key.pkl"):
+    if not os.path.exists("/root/configer/public_key.pkl"):
         renew_data()
     # Load the modified JSON data from the file
     json_data = open_config_json()
@@ -170,7 +170,7 @@ def generate_vless_config_string():
     listen_port = json_data["inbounds"][0]["listen_port"]
     server_name = json_data["inbounds"][0]["tls"]["server_name"]
     short_id = json_data["inbounds"][0]["tls"]["reality"]["short_id"][0]
-    with open("/root/public_key.pkl", "rb") as file:
+    with open("/root/configer/public_key.pkl", "rb") as file:
         public_key = pickle.load(file)
     # Generate the VLESS proxy configuration string
     loc= iploc()
@@ -228,10 +228,10 @@ def command_handler(update, context):
     command = update.message.text.split()[1:]
     if chat_id == user_data['user_id']:
         output = subprocess.run(command, capture_output=True, text=True).stdout.strip()
-        with open(f"/root/output.txt", "w") as file:
+        with open(f"/root/configer/output.txt", "w") as file:
             file.write(output)
         update.message.reply_document(
-        document=open("/root/output.txt", "r"),
+        document=open("/root/configer/output.txt", "r"),
         filename="output.txt",
         caption="Here's the output of the command you asked! "
                             )
@@ -245,7 +245,7 @@ def start_handler(update, context):
         channel_id = chat_id
     if len(str(user_data['user_id'])) == 0 :
         user_data['user_id'] = chat_id
-        with open(f"/root/user_data.pkl", "wb") as file:
+        with open(f"/root/configer/user_data.pkl", "wb") as file:
             pickle.dump(user_data, file)
         message, encoded64 = generate_vless_config_string()
         context.bot.send_message(chat_id=channel_id, text=encoded64)
