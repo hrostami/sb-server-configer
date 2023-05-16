@@ -21,11 +21,7 @@
 [آموزش سگارو](https://telegra.ph/How-run-Reality-protocol-with-Xray-or-Sing-box-Core-with-iSegaro-04-18)
 
 ## راه اندازی بات
-اگه قبلا نسخه ای دیگه از این بات رو نصب کردید ابتدا با دستور های زیر قبلی ها رو پاک کنید:
-```bash
-curl -Lo /root/cleaner.py https://raw.githubusercontent.com/hrostami/sb-server-configer/master/cleaner.py
-python3 cleaner.py
-```
+
 اول فایل first.py رو میگیریم که توکن بات تلگرام رو به راحتی ست کنید و بقیه کار رو هم خودش خودکار انجام میده شما نیازی نیست کاری انجام بدید.
 ```bash
 curl -Lo /root/first.py https://raw.githubusercontent.com/hrostami/sb-server-configer/master/first.py
@@ -35,11 +31,9 @@ curl -Lo /root/first.py https://raw.githubusercontent.com/hrostami/sb-server-con
 python3 first.py توکن_بات_تلگرام
 ```
 ** یادتون نره به جای توکن تلگرام تو دستور بالا توکن بات خودتون رو قرار بدید! **
-~~ اگر بعدا خواستید اطلاعات اولیه ای که ست کردید رو تغییر بدید نیاز نیست کل پروسه رو از اول انجام بدید، دستور زیر رو اجرا کنید:
-```bash
-python3 user_data_editor.py
-```
-~~
+
+هر وقت خواستید هر کدوم از پارامتر ها رو تغییر بدید تو بات تون با دستور set می‌تونید این کار رو انجام بدید. 
+
 بعد از اینکه تموم شد دستور زیر رو اجرا کنید که فایل first.py که دیگه بهش احتیاج نداریم حذف بشه:
 ```bash
 rm first.py
