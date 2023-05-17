@@ -41,7 +41,7 @@ finally:
 print('--------> Downloading configer.py\n\n')
 os.system('curl -Lo /root/configer/configer.py https://raw.githubusercontent.com/hrostami/sb-server-configer/master/configer.py')
 os.system('curl -Lo /root/configer/user_data_editor.py https://raw.githubusercontent.com/hrostami/sb-server-configer/master/user_data_editor.py')
-os.system('apt-get install pip')
+os.system('apt-get -y install pip')
 os.system('pip install python-telegram-bot==13.5')
 os.system('pip install requests')
 time.sleep(1)
