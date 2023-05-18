@@ -268,7 +268,7 @@ def update_handler(update, context):
         update.message.reply_document(
         document=open("/root/configer/update.txt", "r"),
         filename="update.txt",
-        caption="Here's the output of update! "
+        caption="Here's the output of update! ")
 
 
 # Define a handler to send config json for ios
