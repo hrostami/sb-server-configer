@@ -8,7 +8,7 @@ import requests
 from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandler, Filters
 import logging
 
-logging.basicConfig(filename='/root/configer/bot.log', filemode='w', level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
+logging.basicConfig(filename='/root/configer/bot.log', filemode='w', level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 python_version = subprocess.run(["/usr/bin/python3", "-V"], text=True, capture_output=True).stdout.strip()
 python_version = python_version.split()[1].split('.')[1]
 
