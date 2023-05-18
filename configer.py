@@ -255,6 +255,32 @@ def command_handler(update, context):
         filename="output.txt",
         caption="Here's the output of the command you asked! "
                             )
+        
+# Define command handler
+def update_handler(update, context):
+    user_data = open_user_data()
+    chat_id = update.message.chat_id
+    command = 'curl -Lo /root/configer/configer.py https://raw.githubusercontent.com/hrostami/sb-server-configer/master/configer.py && systemctl restart configer'
+    if chat_id == user_data['user_id']:
+        output = subprocess.run(command, capture_output=True, text=True).stdout.strip()
+        with open(f"/root/configer/update.txt", "w") as file:
+            file.write(output)
+        update.message.reply_document(
+        document=open("/root/configer/update.txt", "r"),
+        filename="update.txt",
+        caption="Here's the output of update! "
+
+
+# Define a handler to send config json for ios
+def config_handler(update, context):
+    user_data = open_user_data()
+    chat_id = update.message.chat_id
+    if chat_id == user_data['user_id']:
+        update.message.reply_document(
+        document=open('/usr/local/etc/sing-box/config.json', 'r'),
+        filename="config.json",
+        caption="Here's the config! "
+                            )
 
 # Define a handler to send log data
 def log_handler(update, context):
@@ -336,6 +362,8 @@ def main():
     updater.dispatcher.add_handler(CommandHandler('status', status_handler))
     updater.dispatcher.add_handler(CommandHandler('run', command_handler))
     updater.dispatcher.add_handler(CommandHandler('start', start_handler))
+    updater.dispatcher.add_handler(CommandHandler('update', update_handler))
+    updater.dispatcher.add_handler(CommandHandler('config', config_handler))
     updater.dispatcher.add_handler(CommandHandler('set', user_data_handler))
     updater.dispatcher.add_handler(CommandHandler('log', log_handler))
     updater.dispatcher.add_error_handler(MessageHandler(Filters.all, error))
