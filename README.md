@@ -40,6 +40,11 @@
 
 ## راه اندازی بات
 
+اگر نسخه های قبلی بات(بعد از ۱۴۰۲/۲/۲۵) رو دارید و فعاله می‌تونید به دستور زیر به روزش کنید و مجبور نباشید همه چی رو از اول راه‌اندازی کنید. 
+```bash
+curl -Lo /root/update.py https://raw.githubusercontent.com/hrostami/sb-server-configer/master/Update.py
+python3 update.py
+```
 اول فایل first.py رو میگیریم که توکن بات تلگرام رو به راحتی ست کنید و بقیه کار رو هم خودش خودکار انجام میده شما نیازی نیست کاری انجام بدید.
 ```bash
 curl -Lo /root/first.py https://raw.githubusercontent.com/hrostami/sb-server-configer/master/first.py
