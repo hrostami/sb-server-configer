@@ -24,7 +24,7 @@ user_data = {
     "server_IP": "",
     "listen_port": 443,
     "bot_token": "",
-    "renewal_interval":12,
+    "renewal_interval":0,
     "domain_name":'domain.com'
 }
 try:
