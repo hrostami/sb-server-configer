@@ -312,9 +312,7 @@ def user_data_handler(update, context):
                         "/set channel_id گرفتید myidbot آیدی کانال که از بات\n" 
                         "/set server_IP آی پی سرور تون\n" 
                         "/set listen_port پورت سینگ باکس مثلا 443\n" 
-                        "/set bot_token توکن بات تلگرام\n"
-                        "/set renewal_interval زمان تجدید کانفیگ به ساعت\n"
-                        "/set domain_name دامنه در صورت وجود" )
+                       )
             context.bot.send_message(chat_id=chat_id, text=message)
    
 
