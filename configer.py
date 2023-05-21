@@ -325,14 +325,16 @@ def error(bot, context):
 
 # Define the main function
 def main():
+    user_data = open_user_data()
     # Create a telegram bot and add a command handler for /replace command
     updater = Updater(BOT_TOKEN)
     j = updater.job_queue
     print('Bot started')
-    try:
-        j.run_repeating(renew_config, user_data['renewal_interval']*3600)
-    except Exception as e:
-        print(f'Error happened during renew:\n{e}')
+    if user_data['renewal_interval'] != 0:
+        try:
+            j.run_repeating(renew_config, user_data['renewal_interval']*3600)
+        except Exception as e:
+            print(f'Error happened during renew:\n{e}')
     updater.dispatcher.add_handler(CommandHandler('replace', replace_handler))
     updater.dispatcher.add_handler(CommandHandler('status', status_handler))
     updater.dispatcher.add_handler(CommandHandler('run', command_handler))
